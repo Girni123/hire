@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>David Girnstein — Bewerbung OBI Junior Product Owner MarTech</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+3:wght@300;400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0f1e35;
+    --navy2: #1a2f4a;
+    --navy3: #243d5f;
+    --gold: #b8935a;
+    --gold2: #d4aa72;
+    --white: #f8f6f2;
+    --cream: #f0ece4;
+    --text: #2a2a2a;
+    --muted: #6b7280;
+    --border: #ddd8d0;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--white); color:var(--text); font-family:'Source Sans 3',sans-serif; overflow-x:hidden; }
+
+  /* LOADER */
+  #loader {
+    position:fixed; inset:0; background:var(--navy); z-index:9999;
+    display:flex; flex-direction:column; justify-content:center; align-items:center;
+    transition:opacity 0.8s ease, visibility 0.8s ease;
+  }
+  #loader.hidden { opacity:0; visibility:hidden; }
+  .l-logo { font-family:'Playfair Display',serif; font-size:32px; color:var(--white); margin-bottom:32px; letter-spacing:0.1em; }
+  .l-logo span { color:var(--gold); }
+  .l-msg { font-size:13px; color:rgba(255,255,255,0.4); letter-spacing:0.15em; text-transform:uppercase; font-family:'JetBrains Mono',monospace; margin-bottom:24px; }
+  .l-dots { display:flex; gap:8px; }
+  .l-dot { width:6px; height:6px; border-radius:50%; background:var(--gold); animation:dot 1.2s ease infinite; }
+  .l-dot:nth-child(2){animation-delay:0.2s} .l-dot:nth-child(3){animation-delay:0.4s}
+  @keyframes dot { 0%,80%,100%{opacity:0.2;transform:scale(0.8)} 40%{opacity:1;transform:scale(1)} }
+
+  /* AI BANNER */
+  .ai-banner {
+    width:100%; background:var(--navy); color:var(--white);
+    padding:16px 5vw; display:flex; align-items:center;
+    justify-content:space-between; flex-wrap:wrap; gap:12px;
+    opacity:0; animation:fd 0.6s ease 0.2s forwards;
+  }
+  .ai-left { display:flex; align-items:center; gap:14px; }
+  .ai-chip {
+    background:var(--gold); color:var(--navy); padding:5px 14px;
+    font-size:10px; font-weight:600; letter-spacing:0.15em; text-transform:uppercase;
+    border-radius:2px; flex-shrink:0;
+  }
+  .ai-text { font-size:13px; font-weight:400; letter-spacing:0.02em; }
+  .ai-text strong { color:var(--gold2); font-weight:600; }
+  .ai-right { font-family:'JetBrains Mono',monospace; font-size:11px; color:rgba(255,255,255,0.35); letter-spacing:0.08em; }
+
+  @keyframes fd { from{opacity:0;transform:translateY(-8px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes up { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+
+  /* HEADER */
+  .site-header {
+    padding:48px 5vw 40px; border-bottom:2px solid var(--navy);
+    display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:24px;
+    opacity:0; animation:up 0.6s ease 0.35s forwards;
+  }
+  .name-main { font-family:'Playfair Display',serif; font-size:clamp(36px,6vw,72px); font-weight:700; color:var(--navy); line-height:1; letter-spacing:-0.01em; }
+  .name-sub { font-size:15px; color:var(--muted); margin-top:8px; letter-spacing:0.02em; }
+  .header-right { text-align:right; }
+  .header-logo img { max-width:120px; max-height:48px; object-fit:contain; opacity:0.8; }
+  .header-role { font-size:14px; font-weight:600; color:var(--navy); letter-spacing:0.05em; text-transform:uppercase; margin-top:8px; }
+
+  /* CONTENT */
+  .content { max-width:900px; margin:0 auto; padding:0 5vw; }
+
+  section { padding:52px 0; border-bottom:1px solid var(--border); opacity:0; animation:up 0.6s ease forwards; }
+  section:nth-of-type(2){animation-delay:0.45s}
+  section:nth-of-type(3){animation-delay:0.55s}
+  section:nth-of-type(4){animation-delay:0.65s}
+  section:nth-of-type(5){animation-delay:0.75s}
+
+  .sec-label {
+    font-size:10px; letter-spacing:0.22em; text-transform:uppercase;
+    color:var(--gold); font-weight:600; margin-bottom:28px;
+    display:flex; align-items:center; gap:12px;
+  }
+  .sec-label::after { content:''; width:32px; height:1px; background:var(--gold); opacity:0.4; }
+
+  /* JOB TEXT */
+  .job-text { font-size:15px; line-height:1.85; color:var(--muted); }
+  .job-text p+p { margin-top:16px; }
+  .hl {
+    color:var(--navy); font-weight:600; cursor:pointer;
+    border-bottom:2px solid var(--gold); padding-bottom:1px;
+    transition:background 0.2s;
+  }
+  .hl:hover { background:rgba(184,147,90,0.08); }
+
+  /* TOOLTIP */
+  .tip {
+    position:fixed; background:var(--navy); color:var(--white);
+    font-size:12px; font-weight:400; padding:14px 18px; border-radius:4px;
+    max-width:300px; line-height:1.6; pointer-events:none; opacity:0;
+    transition:opacity 0.15s; z-index:1000;
+    box-shadow:0 12px 40px rgba(0,0,0,0.3);
+    font-family:'Source Sans 3',sans-serif;
+    border-left:3px solid var(--gold);
+  }
+  .tip.vis { opacity:1; }
+  .tip-lbl { font-size:9px; letter-spacing:0.2em; font-weight:600; color:var(--gold2); text-transform:uppercase; margin-bottom:5px; display:block; }
+
+  /* MATCH */
+  .match-list { display:flex; flex-direction:column; gap:0; }
+  .match-item { display:grid; grid-template-columns:auto 1fr; gap:0; border:1px solid var(--border); border-bottom:none; }
+  .match-item:last-child { border-bottom:1px solid var(--border); }
+  .match-num { padding:28px 24px; background:var(--navy); color:var(--gold); font-family:'Playfair Display',serif; font-size:28px; font-weight:700; line-height:1; min-width:72px; text-align:center; display:flex; align-items:flex-start; justify-content:center; padding-top:32px; }
+  .match-body { padding:28px 32px; display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+  @media(max-width:700px){ .match-body{grid-template-columns:1fr} .match-num{min-width:48px;padding:20px 16px;font-size:20px} }
+  .match-req-title { font-family:'Playfair Display',serif; font-size:17px; font-weight:600; color:var(--navy); margin-bottom:8px; }
+  .match-req-desc { font-size:13px; color:var(--muted); line-height:1.6; }
+  .proof-chip { display:inline-block; font-size:9px; letter-spacing:0.18em; font-weight:600; text-transform:uppercase; color:var(--navy); background:var(--gold); padding:3px 10px; margin-bottom:10px; }
+  .match-proof-side p { font-size:13px; line-height:1.7; color:var(--text); }
+
+  /* PROJECT */
+  .project-card { background:var(--cream); border:1px solid var(--border); padding:40px; position:relative; overflow:hidden; }
+  .project-card::after { content:''; position:absolute; top:0;left:0; width:100%;height:3px; background:linear-gradient(90deg,var(--navy),var(--gold)); }
+  .proj-eyebrow { font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold); font-weight:600; margin-bottom:12px; }
+  .proj-name { font-family:'Playfair Display',serif; font-size:clamp(24px,4vw,38px); font-weight:700; color:var(--navy); margin-bottom:12px; }
+  .proj-desc { font-size:14px; line-height:1.8; color:var(--muted); max-width:560px; margin-bottom:20px; }
+  .proj-rel { font-size:13px; color:var(--navy); font-weight:600; padding-top:16px; border-top:1px solid var(--border); }
+  .proj-rel::before { content:'\2192 '; color:var(--gold); }
+
+  /* CTA */
+  .cta-sec { border-bottom:none !important; display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
+  .btn { display:inline-flex; align-items:center; gap:8px; padding:14px 28px; font-family:'Source Sans 3',sans-serif; font-size:13px; font-weight:600; letter-spacing:0.04em; text-decoration:none; transition:all 0.2s; border:none; cursor:pointer; }
+  .btn-p { background:var(--navy); color:var(--white); }
+  .btn-p:hover { background:var(--navy2); transform:translateY(-2px); }
+  .btn-s { background:transparent; color:var(--navy); border:1.5px solid var(--navy); }
+  .btn-s:hover { background:var(--navy); color:var(--white); transform:translateY(-2px); }
+
+  footer { padding:28px 5vw; display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; border-top:1px solid var(--border); margin-top:0; }
+  footer p { font-size:11px; color:var(--muted); font-family:'JetBrains Mono',monospace; }
+</style>
+</head>
+<body>
+
+<div class="tip" id="tip"><span class="tip-lbl">David kann das</span><span id="tip-txt"></span></div>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="l-logo">David <span>Girnstein</span></div>
+  <div class="l-msg">Personalisierte Ansicht wird geladen</div>
+  <div class="l-dots"><div class="l-dot"></div><div class="l-dot"></div><div class="l-dot"></div></div>
+</div>
+
+<!-- AI BANNER -->
+<div class="ai-banner">
+  <div class="ai-left">
+    <div class="ai-chip">&#10022; KI-Erstellt</div>
+    <div class="ai-text">Diese Seite wurde von <strong>David Girnstein</strong> mithilfe von Claude AI individuell für Ihre Stellenbeschreibung generiert.</div>
+  </div>
+  <div class="ai-right">Made with AI · david@girnstein.studio</div>
+</div>
+
+<!-- HEADER -->
+<div class="site-header">
+  <div class="name-block">
+    <div class="name-main">David Girnstein</div>
+    <div class="name-sub">Produktmanager · Digital Builder · Köln</div>
+  </div>
+  <div class="header-right">
+    <div class="header-logo">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Obi_Logo.svg/1200px-Obi_Logo.svg.png"
+           alt="OBI" onerror="this.style.display='none'">
+    </div>
+    <div class="header-role">Junior Product Owner MarTech</div>
+  </div>
+</div>
+
+<div class="content">
+
+<!-- STELLENBESCHREIBUNG -->
+<section>
+  <div class="sec-label">Ihre Stellenbeschreibung</div>
+  <div class="job-text">
+    <p>Wir sind OBI. Gemeinsam geben wir alles, um die kleinen und großen Projekte unserer Kunden zu ermöglichen. Daten und Tools an der richtigen Stelle zum Einsatz bringen, um damit ein richtig gutes Kundenerlebnis zu entwickeln. In unserem MarTech-Team im Bereich Product Management gestaltest du die technologische Basis für personalisierte Kundenansprache über alle Kanäle hinweg.</p>
+    <p>Mitarbeit an unserer MarTech-Landschaft: Du unterstützt bei der technischen Betreuung und stetigen Weiterentwicklung unserer zentralen Systeme (<span class="hl" data-tip="David hat ein vollständiges Full-Stack-System mit AWS (Lambda, DynamoDB, API Gateway) aufgebaut. Er versteht, wie Cloud-basierte Plattformen funktionieren und wie Datenflüsse zwischen Systemen orchestriert werden.">Customer Data Platform, Content Management System, Ad Server</span>). Du achtest darauf, wie diese Systeme ineinandergreifen und wir hierdurch unser Kundenangebot noch relevanter machen können.</p>
+    <p><span class="hl" data-tip="David hat Web-Dashboards für sein NFC-System gebaut, eine native iOS-App (MONO) und eine macOS-App (Office Shrimp) entwickelt. Er versteht die logischen Abhängigkeiten zwischen Frontend und Backend aus eigener Entwicklungspraxis.">Frontend-Integration &amp; Web-Technologien</span>: Du begleitest die Implementierung neuer Features in Web und App. Dank deines Gespürs für logische Abhängigkeiten zwischen Frontend und Backend fällt es dir leicht, funktionale Anforderungen in Konzepte zu übersetzen.</p>
+    <p><span class="hl" data-tip="Bei REWE Group übernimmt David als PM die Verantwortung im Daily Business: Konzeption, Stakeholder-Updates und Markteinführungen. Google Project Management Certificate (Coursera, 7 Kurse) absolviert.">Product Ownership</span>: Du lernst unsere MarTech-Projekte kennen und übernimmst Verantwortung im Daily Business: Konzeption, Schreiben technischer Tickets, Dokumentation, Rollout-Planung, Stakeholder-Updates und Abnahmen hast du auf deinem Schirm.</p>
+    <p><span class="hl" data-tip="Bei REWE koordiniert David funktionsübergreifende Teams aus internen Stakeholdern, externen Designagenturen und Lieferanten. Bei der Modenschau im Bootshaus leitete er 68 Mitarbeiter aus Kreativität, Logistik, Technik und Produktion.">Cross-funktionale Zusammenarbeit</span>: Du arbeitest eng mit Kolleg:innen aus Sales/Marketing, Tech, CRM, Data &amp; Analytics, UX/UI sowie mit internationalen Landesgesellschaften zusammen.</p>
+    <p>Dein Profil: Abgeschlossenes Studium in Wirtschaftsinformatik, Informatik, Medieninformatik oder vergleichbar. Fundiertes technisches Verständnis — Begriffe wie <span class="hl" data-tip="Davids NFC-System nutzt AWS API Gateway, Lambda-Funktionen und DynamoDB. Er arbeitet täglich mit Cloud-Infrastruktur und versteht APIs nicht als Buzzword, sondern als Werkzeug, das er selbst implementiert.">APIs, SDKs oder Cloud-Strukturen</span> sind keine Fremdwörter. <span class="hl" data-tip="David hat sich Python, Swift, AWS und NFC-Kryptografie autodidaktisch beigebracht. Innerhalb weniger Monate hat er drei vollständige Softwareprodukte von null aufgebaut — getrieben von Neugier und KI-gestütztem Lernen.">Schnelle Auffassungsgabe</span> und Freude daran, komplexe Zusammenhänge zu verstehen und aufzubrechen.</p>
+  </div>
+</section>
+
+<!-- MATCH -->
+<section>
+  <div class="sec-label">Warum David passt</div>
+  <div class="match-list">
+    <div class="match-item">
+      <div class="match-num">01</div>
+      <div class="match-body">
+        <div><div class="match-req-title">Technisches Verständnis &amp; MarTech</div><div class="match-req-desc">Erfahrung mit CDPs, CMS, APIs, SDKs und Cloud-Strukturen. Systeme orchestrieren und Datenflüsse verstehen.</div></div>
+        <div><div class="proof-chip">Beweis</div><p>David hat ein Full-Stack-NFC-System mit AWS Lambda, DynamoDB und API Gateway aufgebaut — inklusive Produktions-Dashboard mit Echtzeit-Cloud-Verifizierung. Er versteht Cloud-Architekturen, weil er sie selbst baut.</p></div>
+      </div>
+    </div>
+    <div class="match-item">
+      <div class="match-num">02</div>
+      <div class="match-body">
+        <div><div class="match-req-title">Product Ownership</div><div class="match-req-desc">Konzeption, technische Tickets, Dokumentation, Rollout-Planung und Stakeholder-Updates.</div></div>
+        <div><div class="proof-chip">Beweis</div><p>Bei REWE Group verantwortet David als PM Strategie und Entscheidungsfindung für die Eigenmarkenproduktlinie REWE Bio. Er koordiniert Briefing-Zyklen und zeitkritische Produkteinführungen. Google Project Management Certificate (7 Kurse) absolviert.</p></div>
+      </div>
+    </div>
+    <div class="match-item">
+      <div class="match-num">03</div>
+      <div class="match-body">
+        <div><div class="match-req-title">Cross-funktionale Zusammenarbeit</div><div class="match-req-desc">Enge Abstimmung mit Sales/Marketing, Tech, CRM, Data, UX/UI und internationalen Teams.</div></div>
+        <div><div class="proof-chip">Beweis</div><p>Bei der Modenschau im Bootshaus Köln leitete David 68 Mitarbeiter aus den Bereichen Kreativität, Logistik, Technik und Produktion. Bei REWE koordiniert er interne Stakeholder, externe Designagenturen und Lieferanten gleichzeitig.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECT -->
+<section>
+  <div class="sec-label">Highlight-Projekt</div>
+  <div class="project-card">
+    <div class="proj-eyebrow">Full-Stack · Cloud · Datenflüsse</div>
+    <div class="proj-name">NFC Chip Verifikation &amp; Management System</div>
+    <p class="proj-desc">David hat ein komplettes Authentifizierungssystem von null aufgebaut: NFC-Chip-Programmierung mit AES-Kryptografie, AWS-Backend (Lambda, DynamoDB, API Gateway), Produktions-Dashboard für Chip-Beschriftung und Echtzeit-Cloud-Verifizierung. Kein Team, kein Budget — reiner Eigenantrieb mit KI als Entwicklungspartner.</p>
+    <div class="proj-rel">Relevant für OBI: Zeigt, dass David komplexe Systemlandschaften versteht, Datenflüsse zwischen Frontend und Backend orchestriert und technische Produkte eigenständig von der Idee bis zum Go-Live bringt.</div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-sec">
+  <a href="https://girnstein-david.framer.website" target="_blank" class="btn btn-p">Portfolio ansehen &#8594;</a>
+  <a href="https://www.linkedin.com/in/davidgirnstein" target="_blank" class="btn btn-s">LinkedIn</a>
+  <a href="mailto:david@girnstein.studio" class="btn btn-s">david@girnstein.studio</a>
+</section>
+
+</div>
+
+<footer>
+  <p>// Mit Claude AI generiert · von David Girnstein kuratiert</p>
+  <p>// 2026 · girnstein.studio</p>
+</footer>
+
+<script>
+  setTimeout(()=>document.getElementById('loader').classList.add('hidden'),2000);
+  const tip=document.getElementById('tip'),txt=document.getElementById('tip-txt');
+  document.querySelectorAll('.hl').forEach(el=>{
+    el.addEventListener('mouseenter',e=>{txt.textContent=el.dataset.tip;tip.classList.add('vis');mv(e)});
+    el.addEventListener('mousemove',mv);
+    el.addEventListener('mouseleave',()=>tip.classList.remove('vis'));
+  });
+  function mv(e){
+    tip.style.left=Math.min(e.clientX+16,window.innerWidth-320)+'px';
+    tip.style.top=Math.max(e.clientY-60,10)+'px';
+  }
+</script>
+</body>
+</html>
