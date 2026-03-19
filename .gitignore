@@ -1,0 +1,12 @@
+# Persönliche Daten — werden NICHT auf GitHub hochgeladen
+mein-profil.md
+jobs.csv
+generate.py
+
+# Python
+__pycache__/
+*.pyc
+.env
+
+# Mac
+.DS_Store
