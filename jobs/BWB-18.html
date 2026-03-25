@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>David Girnstein — CHECK24 (Junior) PM Digital Ferienwohnungen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d1117;
+    --panel: #161b22;
+    --panel2: #1c2330;
+    --border: #30363d;
+    --blue: #58a6ff;
+    --blue2: #79c0ff;
+    --green: #3fb950;
+    --white: #e6edf3;
+    --muted: #8b949e;
+    --text: #c9d1d9;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--bg); color:var(--text); font-family:'Inter',sans-serif; overflow-x:hidden; }
+  #loader {
+    position:fixed; inset:0; background:var(--bg); z-index:9999;
+    display:flex; flex-direction:column; justify-content:center; padding:8vw;
+    transition:opacity 0.6s, visibility 0.6s;
+  }
+  #loader.hidden { opacity:0; visibility:hidden; }
+  .ll { font-family:'JetBrains Mono',monospace; font-size:13px; color:var(--muted); margin-bottom:10px; opacity:0; display:flex; gap:10px; }
+  .ll.vis { animation:lin 0.25s ease forwards; }
+  .ll .ok { color:var(--green); }
+  .ll .run { color:var(--blue); }
+  @keyframes lin { from{opacity:0;transform:translateX(-6px)} to{opacity:1;transform:translateX(0)} }
+  .ai-banner {
+    width:100%; background:var(--panel); border-bottom:1px solid var(--border);
+    padding:14px 5vw; display:flex; align-items:center;
+    justify-content:space-between; flex-wrap:wrap; gap:12px;
+    opacity:0; animation:up 0.5s ease 0.2s forwards;
+  }
+  .ai-left { display:flex; align-items:center; gap:14px; }
+  .ai-badge {
+    background:rgba(63,185,80,0.1); border:1px solid var(--green);
+    color:var(--green); font-family:'JetBrains Mono',monospace;
+    font-size:10px; font-weight:700; letter-spacing:0.1em; padding:5px 12px;
+  }
+  .ai-text { font-size:13px; color:var(--muted); }
+  .ai-text strong { color:var(--white); font-weight:500; }
+  .ai-right { font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--border); }
+  @keyframes up { from{opacity:0;transform:translateY(-6px)} to{opacity:1;transform:translateY(0)} }
+  @keyframes fd { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
+  .hero {
+    padding:72px 5vw 56px; border-bottom:1px solid var(--border);
+    display:grid; grid-template-columns:1fr auto; gap:40px; align-items:start;
+    opacity:0; animation:fd 0.6s ease 0.35s forwards;
+  }
+  @media(max-width:700px){ .hero{grid-template-columns:1fr} .hero-logo{display:none} }
+  .hero-label { font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--blue); letter-spacing:0.15em; margin-bottom:16px; }
+  .hero-title { font-family:'Syne',sans-serif; font-size:clamp(48px,9vw,120px); font-weight:800; line-height:0.9; letter-spacing:-0.02em; color:var(--white); margin-bottom:28px; }
+  .hero-title em { font-style:normal; color:var(--blue); }
+  .hero-meta { display:flex; flex-wrap:wrap; gap:10px; }
+  .tag { background:var(--panel); border:1px solid var(--border); padding:7px 16px; font-size:12px; color:var(--text); border-radius:6px; font-weight:500; }
+  .tag.hi { border-color:var(--blue); color:var(--blue); background:rgba(88,166,255,0.05); }
+  .hero-logo { background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:20px; display:flex; align-items:center; justify-content:center; min-width:120px; min-height:72px; }
+  .hero-logo span { color:var(--muted); font-family:'Syne',sans-serif; font-weight:700; font-size:16px; }
+  section { padding:56px 5vw; border-bottom:1px solid var(--border); opacity:0; animation:fd 0.6s ease forwards; }
+  section:nth-of-type(2){animation-delay:0.45s}
+  section:nth-of-type(3){animation-delay:0.55s}
+  section:nth-of-type(4){animation-delay:0.65s}
+  section:nth-of-type(5){animation-delay:0.75s}
+  .sec-label { font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.2em; text-transform:uppercase; color:var(--blue); margin-bottom:32px; display:flex; align-items:center; gap:12px; }
+  .sec-label::after { content:''; flex:1; max-width:40px; height:1px; background:var(--blue); opacity:0.25; }
+  .job-text { font-size:15px; line-height:1.85; color:var(--muted); max-width:820px; }
+  .job-text p+p { margin-top:16px; }
+  .hl { color:var(--blue2); font-weight:500; cursor:pointer; border-bottom:1px dotted rgba(121,192,255,0.4); transition:background 0.2s; padding:1px 2px; }
+  .hl:hover { background:rgba(88,166,255,0.07); border-bottom-color:var(--blue2); }
+  .tip {
+    position:fixed; background:var(--panel2); color:var(--text);
+    font-size:12px; padding:12px 16px; border-radius:8px;
+    max-width:300px; line-height:1.6; pointer-events:none; opacity:0;
+    transition:opacity 0.15s; z-index:1000; box-shadow:0 8px 32px rgba(0,0,0,0.6);
+    border:1px solid var(--border); border-left:3px solid var(--blue);
+    font-family:'Inter',sans-serif;
+  }
+  .tip.vis { opacity:1; }
+  .tip-lbl { font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:0.15em; color:var(--blue); margin-bottom:5px; display:block; text-transform:uppercase; }
+  .match-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:1px; background:var(--border); }
+  @media(max-width:800px){ .match-grid{grid-template-columns:1fr} }
+  .match-card { background:var(--panel); padding:32px 28px; }
+  .match-num { font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--blue); letter-spacing:0.15em; margin-bottom:12px; }
+  .match-title { font-family:'Syne',sans-serif; font-size:18px; font-weight:700; color:var(--white); margin-bottom:8px; }
+  .match-req-desc { font-size:12px; color:var(--muted); line-height:1.6; margin-bottom:20px; padding-bottom:20px; border-bottom:1px solid var(--border); }
+  .proof-tag { font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:0.15em; color:var(--green); text-transform:uppercase; margin-bottom:8px; display:flex; align-items:center; gap:6px; }
+  .proof-tag::before { content:'\2713'; }
+  .match-proof-text { font-size:12px; line-height:1.7; color:var(--text); }
+  .project { background:var(--panel); border:1px solid var(--border); border-radius:8px; padding:40px; position:relative; overflow:hidden; }
+  .project::before { content:''; position:absolute; top:0;left:0;right:0; height:2px; background:linear-gradient(90deg,var(--blue),var(--green)); }
+  .proj-tag { font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:0.15em; color:var(--green); text-transform:uppercase; margin-bottom:14px; display:flex; align-items:center; gap:8px; }
+  .proj-tag::before { content:'\25CF'; font-size:8px; animation:pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+  .proj-name { font-family:'Syne',sans-serif; font-size:clamp(26px,4vw,42px); font-weight:800; color:var(--white); margin-bottom:12px; }
+  .proj-desc { font-size:14px; line-height:1.8; color:var(--muted); max-width:580px; margin-bottom:20px; }
+  .proj-rel { font-size:13px; color:var(--blue); padding-top:16px; border-top:1px solid var(--border); font-weight:500; }
+  .cta-sec { border-bottom:none !important; display:flex; gap:12px; flex-wrap:wrap; }
+  .btn { display:inline-flex; align-items:center; gap:8px; padding:12px 24px; font-size:13px; font-weight:500; text-decoration:none; border-radius:6px; transition:all 0.2s; border:none; cursor:pointer; font-family:'Inter',sans-serif; }
+  .btn-p { background:var(--blue); color:#000; font-weight:600; }
+  .btn-p:hover { background:var(--blue2); transform:translateY(-1px); }
+  .btn-s { background:transparent; color:var(--text); border:1px solid var(--border); }
+  .btn-s:hover { border-color:var(--text); transform:translateY(-1px); }
+  footer { padding:24px 5vw; display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; }
+  footer p { font-size:11px; color:var(--border); font-family:'JetBrains Mono',monospace; }
+</style>
+</head>
+<body>
+<div class="tip" id="tip"><span class="tip-lbl">// david kann das</span><span id="tip-txt"></span></div>
+<div id="loader">
+  <div class="ll" id="l1"><span class="run">$</span><span>analyzing job_description: CHECK24 (Junior) PM Digital Ferienwohnungen...</span></div>
+  <div class="ll" id="l2"><span class="run">$</span><span>loading profile: david_girnstein.md...</span></div>
+  <div class="ll" id="l3"><span class="run">$</span><span>matching requirements against experience...</span></div>
+  <div class="ll" id="l4"><span class="ok">&#10003;</span><span style="color:var(--green)">page generated successfully</span></div>
+</div>
+<div class="ai-banner">
+  <div class="ai-left">
+    <div class="ai-badge">&#10022; AI-GENERATED</div>
+    <div class="ai-text">Diese Seite wurde von <strong>David Girnstein</strong> mithilfe von Claude AI individuell auf Basis Ihrer Stellenbeschreibung erstellt.</div>
+  </div>
+  <div class="ai-right">david@girnstein.studio</div>
+</div>
+<div class="hero">
+  <div>
+    <div class="hero-label">// personalisierte_bewerbung.html</div>
+    <h1 class="hero-title">WARUM<br><em>DAVID?</em></h1>
+    <div class="hero-meta">
+      <span class="tag hi">(Junior) PM Digital Ferienwohnungen</span>
+      <span class="tag">CHECK24</span>
+      <span class="tag">Düsseldorf</span>
+    </div>
+  </div>
+  <div class="hero-logo"><span>CHECK24</span></div>
+</div>
+<section>
+  <div class="sec-label">Stellenbeschreibung — hover für Details</div>
+  <div class="job-text">
+    <p>CHECK24 — Deutschlands größtes Vergleichsportal. Mit unserer Buchungsplattform für Ferienunterkünfte (Apartments, Ferienhäuser, B&amp;Bs) schaffen wir einen transparenten Marktvergleich.</p>
+    <p>Ausbau und Steuerung unserer Plattform für Ferienunterkünfte mit Fokus auf das <span class="hl" data-tip="David hat ein vollständiges NFC-Chip-Managementsystem mit Partner-Dashboard gebaut. Er versteht, wie man Portale und Partneranbindungen technisch konzipiert und umsetzt.">Gastgeber-Portal und Partneranbindungen</span> in enger Zusammenarbeit mit dem Entwickler-Team.</p>
+    <p>Entwicklung innovativer Prozesse und neuer Produktfeatures insb. in den Bereichen <span class="hl" data-tip="Davids NFC-System nutzt AWS API Gateway als zentrale Schnittstelle. Er versteht API-Anbindungen nicht theoretisch — er hat sie selbst implementiert.">Anbieterportfolio und APIs</span>. Einsatz moderner <span class="hl" data-tip="KI ist Davids primäres Werkzeug. Er hat drei vollständige Softwareprodukte mit KI-assistiertem Coding gebaut. Claude und GPT nutzt er täglich produktiv.">KI-Tools</span> für schnelle und effiziente Konzeptionierung.</p>
+    <p>Was Du mitbringst: Faszination für <span class="hl" data-tip="David lebt KI-gestützte Produktentwicklung. Drei Produkte von null mit KI gebaut. Er ist kein Nutzer — er ist ein Builder.">neue Technologien wie KI</span>. Analytisch-strukturierte Arbeitsweise. Kreativität und Gespür für <span class="hl" data-tip="B.A. Media Design & Management (Note 1,5). David versteht UX/UI nicht nur konzeptionell, sondern hat selbst Apps und Web-Interfaces gestaltet und umgesetzt.">Design und Benutzererfahrung (UX/UI)</span>.</p>
+  </div>
+</section>
+<section>
+  <div class="sec-label">Anforderung trifft Erfahrung</div>
+  <div class="match-grid">
+    <div class="match-card">
+      <div class="match-num">// 01</div>
+      <div class="match-title">API-Anbindung & Tech</div>
+      <div class="match-req-desc">Partneranbindungen, APIs, Plattform-Entwicklung mit Entwickler-Team.</div>
+      <div class="proof-tag">Beweis</div>
+      <div class="match-proof-text">David hat ein Full-Stack-System mit AWS API Gateway, Lambda und DynamoDB gebaut. Er spricht die Sprache der Entwickler, weil er selbst entwickelt.</div>
+    </div>
+    <div class="match-card">
+      <div class="match-num">// 02</div>
+      <div class="match-title">KI-Tools & Innovation</div>
+      <div class="match-req-desc">Einsatz moderner KI-Tools für schnelle Konzeptionierung und Umsetzung.</div>
+      <div class="proof-tag">Beweis</div>
+      <div class="match-proof-text">Drei vollständige Produkte mit KI-assistiertem Coding gebaut: NFC System, MONO (iOS), Office Shrimp (macOS). Claude und GPT sind tägliche Produktionswerkzeuge.</div>
+    </div>
+    <div class="match-card">
+      <div class="match-num">// 03</div>
+      <div class="match-title">UX/UI & Analytik</div>
+      <div class="match-req-desc">Gespür für Design, Benutzererfahrung und analytisch-strukturierte Arbeitsweise.</div>
+      <div class="proof-tag">Beweis</div>
+      <div class="match-proof-text">B.A. Media Design & Management (1,5). David gestaltet und baut User Interfaces selbst — iOS-App MONO und Web-Dashboards zeigen sein UX-Verständnis aus Praxis.</div>
+    </div>
+  </div>
+</section>
+<section>
+  <div class="sec-label">Highlight-Projekt</div>
+  <div class="project">
+    <div class="proj-tag">Live · Full-Stack · APIs · Cloud</div>
+    <div class="proj-name">NFC Chip System</div>
+    <p class="proj-desc">Full-Stack von null: NFC-Chip-Authentifizierung mit AES-Kryptografie, AWS-Backend (Lambda, DynamoDB, API Gateway), Produktions-Dashboard und Echtzeit-Cloud-Verifizierung.</p>
+    <div class="proj-rel">&rarr; Relevant für CHECK24 Ferienwohnungen: David versteht API-Anbindungen, baut Plattformen und nutzt KI als Produktionswerkzeug — genau was die Rolle braucht.</div>
+  </div>
+</section>
+<section class="cta-sec">
+  <a href="https://girnstein-david.framer.website" target="_blank" class="btn btn-p">Portfolio &#8594;</a>
+  <a href="https://www.linkedin.com/in/davidgirnstein" target="_blank" class="btn btn-s">LinkedIn</a>
+  <a href="mailto:david@girnstein.studio" class="btn btn-s">david@girnstein.studio</a>
+</section>
+<footer>
+  <p>// generated with claude ai &middot; curated by david girnstein</p>
+  <p>// 2026</p>
+</footer>
+<script>
+  const ls=[['l1',0],['l2',400],['l3',800],['l4',1300]];
+  ls.forEach(([id,d])=>setTimeout(()=>document.getElementById(id).classList.add('vis'),d));
+  setTimeout(()=>document.getElementById('loader').classList.add('hidden'),2200);
+  const tip=document.getElementById('tip'),txt=document.getElementById('tip-txt');
+  document.querySelectorAll('.hl').forEach(el=>{
+    el.addEventListener('mouseenter',e=>{txt.textContent=el.dataset.tip;tip.classList.add('vis');mv(e)});
+    el.addEventListener('mousemove',mv);
+    el.addEventListener('mouseleave',()=>tip.classList.remove('vis'));
+  });
+  function mv(e){
+    tip.style.left=Math.min(e.clientX+16,window.innerWidth-320)+'px';
+    tip.style.top=Math.max(e.clientY-60,10)+'px';
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Warum David? — CHECK24 × Junior PM InsurTech</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --lime: #c8e000;
+    --black: #0a0a0a;
+    --gray: #161616;
+    --gray2: #222;
+    --white: #f0f0f0;
+    --muted: #777;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:var(--black); color:var(--white); font-family:'Space Grotesk',sans-serif; overflow-x:hidden; }
+  #loader {
+    position:fixed; inset:0; background:var(--black); z-index:9999;
+    display:flex; flex-direction:column; justify-content:center; padding:8vw;
+    transition:opacity 0.6s ease, visibility 0.6s ease;
+  }
+  #loader.hidden { opacity:0; visibility:hidden; }
+  .ll {
+    font-family:'JetBrains Mono',monospace; font-size:clamp(12px,1.8vw,15px);
+    color:var(--muted); margin-bottom:14px; opacity:0;
+    display:flex; align-items:center; gap:12px;
+  }
+  .ll.vis { animation:lin 0.3s ease forwards; }
+  .ll .p { color:var(--lime); }
+  @keyframes lin { from{opacity:0;transform:translateX(-8px)} to{opacity:1;transform:translateX(0)} }
+  .lbar-wrap { width:200px; height:2px; background:var(--gray2); margin-top:28px; opacity:0; transition:opacity 0.3s; }
+  .lbar-wrap.vis { opacity:1; }
+  .lbar { height:100%; background:var(--lime); width:0%; transition:width 1.6s ease; }
+  .ai-banner {
+    width:100%; background:var(--lime); color:var(--black);
+    padding:18px 5vw; display:flex; align-items:center;
+    justify-content:space-between; flex-wrap:wrap; gap:12px;
+    opacity:0; animation:up 0.5s ease 0.2s forwards;
+  }
+  .ai-left { display:flex; align-items:center; gap:16px; }
+  .ai-icon {
+    width:38px; height:38px; background:var(--black); border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-size:18px; flex-shrink:0;
+  }
+  .ai-title { font-family:'Anton',sans-serif; font-size:clamp(16px,2.5vw,24px); letter-spacing:0.04em; }
+  .ai-sub { font-size:11px; font-weight:500; opacity:0.65; letter-spacing:0.04em; margin-top:2px; }
+  .ai-right { font-family:'JetBrains Mono',monospace; font-size:11px; font-weight:700; letter-spacing:0.1em; opacity:0.55; }
+  .hero {
+    padding:80px 5vw 60px; border-bottom:1px solid var(--gray2);
+    display:grid; grid-template-columns:1fr auto; gap:40px; align-items:end;
+    opacity:0; animation:up 0.6s ease 0.35s forwards;
+  }
+  @media(max-width:700px){ .hero{grid-template-columns:1fr} .hero-logo{display:none} }
+  .hero-label { font-size:11px; letter-spacing:0.25em; text-transform:uppercase; color:var(--lime); margin-bottom:20px; font-weight:600; }
+  .hero-title { font-family:'Anton',sans-serif; font-size:clamp(60px,12vw,160px); line-height:0.88; margin-bottom:32px; }
+  .hero-title span { color:var(--lime); }
+  .hero-meta { display:flex; flex-wrap:wrap; gap:12px; }
+  .pill { background:var(--gray); border:1px solid var(--gray2); padding:8px 18px; border-radius:100px; font-size:13px; font-weight:500; }
+  .pill.accent { background:transparent; border-color:var(--lime); color:var(--lime); }
+  .hero-logo { display:flex; align-items:center; justify-content:center; padding:24px; border:1px solid var(--gray2); border-radius:12px; min-width:120px; min-height:80px; }
+  .hero-logo span { color:var(--muted); font-family:'Anton',sans-serif; font-size:20px; }
+  section { padding:64px 5vw; border-bottom:1px solid var(--gray2); opacity:0; animation:up 0.6s ease forwards; }
+  section:nth-of-type(2){animation-delay:0.45s}
+  section:nth-of-type(3){animation-delay:0.55s}
+  section:nth-of-type(4){animation-delay:0.65s}
+  section:nth-of-type(5){animation-delay:0.75s}
+  @keyframes up { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
+  .sec-label {
+    font-size:10px; letter-spacing:0.25em; text-transform:uppercase;
+    color:var(--lime); margin-bottom:40px; font-weight:700;
+    display:flex; align-items:center; gap:14px;
+  }
+  .sec-label::after { content:''; width:40px; height:1px; background:var(--lime); opacity:0.3; }
+  .job-text { font-size:15px; line-height:1.9; color:#999; max-width:860px; }
+  .job-text p+p { margin-top:20px; }
+  .hl {
+    color:var(--lime); font-weight:600; cursor:pointer;
+    border-bottom:1px dashed rgba(200,224,0,0.35); padding:1px 3px; border-radius:2px;
+    transition:background 0.2s;
+  }
+  .hl:hover { background:rgba(200,224,0,0.07); border-bottom-color:var(--lime); }
+  .tip {
+    position:fixed; background:var(--lime); color:var(--black);
+    font-size:12px; font-weight:600; padding:12px 18px; border-radius:4px;
+    max-width:300px; line-height:1.5; pointer-events:none; opacity:0;
+    transition:opacity 0.15s; z-index:1000; box-shadow:0 12px 40px rgba(0,0,0,0.5);
+    font-family:'Space Grotesk',sans-serif;
+  }
+  .tip.vis { opacity:1; }
+  .tip-lbl { font-size:9px; letter-spacing:0.18em; font-weight:700; opacity:0.6; text-transform:uppercase; margin-bottom:5px; display:block; }
+  .match-grid { display:flex; flex-direction:column; gap:1px; background:var(--gray2); }
+  .match-row { display:grid; grid-template-columns:1fr 1fr; background:var(--black); transition:background 0.2s; }
+  .match-row:hover { background:var(--gray); }
+  @media(max-width:700px){ .match-row{grid-template-columns:1fr} .mreq{border-right:none!important;border-bottom:1px solid var(--gray2);padding:24px 0!important} .mproof{padding:24px 0!important} }
+  .mreq { padding:32px 40px 32px 0; border-right:1px solid var(--gray2); }
+  .mreq strong { display:block; color:var(--white); font-size:16px; font-weight:700; margin-bottom:8px; }
+  .mreq p { font-size:13px; color:var(--muted); line-height:1.6; }
+  .mproof { padding:32px 0 32px 40px; }
+  .proof-tag { display:inline-flex; align-items:center; gap:6px; font-size:9px; letter-spacing:0.18em; font-weight:700; text-transform:uppercase; color:var(--lime); margin-bottom:10px; }
+  .proof-tag::before { content:'\2713'; font-size:11px; }
+  .mproof p { font-size:13px; line-height:1.7; color:var(--white); }
+  .project { border:1px solid var(--gray2); padding:48px; position:relative; overflow:hidden; transition:border-color 0.3s; }
+  .project:hover { border-color:var(--lime); }
+  .project::before { content:''; position:absolute; top:0;left:0; width:3px;height:100%; background:var(--lime); }
+  .proj-tag { display:inline-block; font-size:10px; letter-spacing:0.18em; text-transform:uppercase; color:var(--black); background:var(--lime); padding:4px 12px; font-weight:700; margin-bottom:20px; }
+  .proj-name { font-family:'Anton',sans-serif; font-size:clamp(30px,5vw,52px); line-height:1; margin-bottom:16px; }
+  .proj-desc { color:var(--muted); font-size:14px; line-height:1.8; max-width:600px; margin-bottom:24px; }
+  .proj-rel { font-size:13px; color:var(--lime); font-weight:600; padding-top:20px; border-top:1px solid var(--gray2); }
+  .cta { border-bottom:none; display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
+  .btn { display:inline-flex; align-items:center; gap:8px; padding:15px 30px; font-family:'Space Grotesk',sans-serif; font-size:12px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; text-decoration:none; transition:all 0.2s; border:none; border-radius:2px; cursor:pointer; }
+  .btn-p { background:var(--lime); color:var(--black); }
+  .btn-p:hover { background:#d8f200; transform:translateY(-2px); }
+  .btn-s { background:transparent; color:var(--white); border:1px solid var(--gray2); }
+  .btn-s:hover { border-color:var(--white); transform:translateY(-2px); }
+  footer { padding:28px 5vw; display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px; }
+  footer p { font-size:11px; color:#333; font-family:'JetBrains Mono',monospace; }
+</style>
+</head>
+<body>
+<div class="tip" id="tip"><span class="tip-lbl">David kann das</span><span id="tip-txt"></span></div>
+<div id="loader">
+  <div class="ll" id="l1"><span class="p">&#9658;</span><span>Analysiere Stellenbeschreibung: CHECK24 Junior PM InsurTech...</span></div>
+  <div class="ll" id="l2"><span class="p">&#9658;</span><span>Lade Bewerberprofil: David Girnstein...</span></div>
+  <div class="ll" id="l3"><span class="p">&#9658;</span><span>Gleiche Anforderungen mit Erfahrung ab...</span></div>
+  <div class="ll" id="l4"><span class="p">&#9658;</span><span>Generiere personalisierte Ansicht...</span></div>
+  <div class="ll" id="l5"><span style="color:var(--lime)">&#10003;</span><span style="color:var(--lime);font-weight:700">Fertig — diese Seite wurde exklusiv für Sie erstellt.</span></div>
+  <div class="lbar-wrap" id="lbw"><div class="lbar" id="lb"></div></div>
+</div>
+<div class="ai-banner">
+  <div class="ai-left">
+    <div class="ai-icon">&#10022;</div>
+    <div>
+      <div class="ai-title">DIESE SEITE WURDE VON DAVID MIT KI ERSTELLT</div>
+      <div class="ai-sub">Individuell generiert auf Basis Ihrer Stellenbeschreibung &middot; Made by David Girnstein using Claude AI</div>
+    </div>
+  </div>
+  <div class="ai-right">david@girnstein.studio</div>
+</div>
+<div class="hero">
+  <div>
+    <div class="hero-label">Personalisierte Bewerbung</div>
+    <h1 class="hero-title">WARUM<br><span>DAVID?</span></h1>
+    <div class="hero-meta">
+      <span class="pill accent">Junior PM InsurTech</span>
+      <span class="pill">CHECK24 &middot; München</span>
+    </div>
+  </div>
+  <div class="hero-logo"><span>CHECK24</span></div>
+</div>
+<section>
+  <div class="sec-label">Stellenbeschreibung — hover für Details</div>
+  <div class="job-text">
+    <p>Starte Deine Karriere bei CHECK24 — Deutschlands größtem Vergleichsportal und Vorreiter im Bereich Versicherungen. Als Junior Produktmanager InsurTech entwickelst Du unsere digitalen Produkte konsequent weiter — mit klarem Fokus auf <span class="hl" data-tip="B.A. Media Design & Management (1,5). David baut User Interfaces selbst. MONO (iOS) und Web-Dashboards zeigen sein UX-Verständnis aus Praxis.">Nutzererlebnis, Performance</span> und <span class="hl" data-tip="David nutzt KI täglich produktiv. Drei Produkte mit Claude und GPT gebaut. Er versteht AI-getriebene Automatisierung, weil er sie selbst implementiert.">AI-getriebene Automatisierung</span>.</p>
+    <p><span class="hl" data-tip="David hat drei Produkte End-to-End entwickelt: NFC System, MONO, Office Shrimp. Von Konzeption über UX-Design bis IT-Umsetzung und Testing.">End-to-End Produktentwicklung</span>: Du entwickelst unsere Versicherungsstrecke ganzheitlich weiter — von der Konzeption über UX-Design (Figma) bis hin zur Umsetzung mit der IT, Testing und kontinuierlicher Optimierung.</p>
+    <p><span class="hl" data-tip="David konzipiert und betreut KI-Lösungen in seinen eigenen Produkten. Er nutzt moderne AI-Tools (Claude, GPT) um Prozesse effizienter zu gestalten.">AI in Action</span>: Du konzipierst und betreust innovative AI-Lösungen. <span class="hl" data-tip="David definiert KPIs für seine Produkte und monitort Performance über Cloud-Dashboards. Datengetriebenes Arbeiten ist sein Standardansatz.">Analyse und datengetriebene Optimierung</span>: Du definierst relevante KPIs und leitest datenbasierte Maßnahmen ab.</p>
+    <p>Was Du mitbringst: Gut abgeschlossenes Studium. <span class="hl" data-tip="David begeistert sich für digitale Produkte und baut sie selbst. iOS-App MONO, macOS-App Office Shrimp, Full-Stack NFC-System — alles eigenständig.">Produkt- und Tech-Mindset</span>. Analytisches Denken und strukturierte Arbeitsweise. <span class="hl" data-tip="David kommuniziert auf Deutsch (Muttersprache) und Englisch fließend. Bei REWE arbeitet er mit internationalen Stakeholdern.">Verhandlungssichere Deutsch- und sehr gute Englischkenntnisse</span>.</p>
+  </div>
+</section>
+<section>
+  <div class="sec-label">Anforderung trifft Erfahrung</div>
+  <div class="match-grid">
+    <div class="match-row">
+      <div class="mreq"><strong>End-to-End Produktentwicklung</strong><p>Von Konzeption über UX-Design bis IT-Umsetzung, Testing und Optimierung.</p></div>
+      <div class="mproof"><div class="proof-tag">Beweis</div><p>David hat drei Produkte End-to-End gebaut: NFC System (AWS Full-Stack), MONO (iOS), Office Shrimp (macOS). Er versteht den gesamten Produktlebenszyklus — weil er ihn selbst durchlaufen hat.</p></div>
+    </div>
+    <div class="match-row">
+      <div class="mreq"><strong>AI in Action</strong><p>AI-Lösungen konzipieren, moderne AI-Tools einsetzen, Prozesse automatisieren.</p></div>
+      <div class="mproof"><div class="proof-tag">Beweis</div><p>KI ist Davids primäres Werkzeug. Claude und GPT nutzt er täglich produktiv zum Bauen von Software. Sein NFC-System automatisiert End-to-End mit Cloud-Technologie.</p></div>
+    </div>
+    <div class="match-row">
+      <div class="mreq"><strong>Datengetriebene Optimierung</strong><p>KPIs definieren, Nutzerverhalten analysieren, Conversion-Optimierung.</p></div>
+      <div class="mproof"><div class="proof-tag">Beweis</div><p>David baut Monitoring-Dashboards und trackt Performance-Metriken für seine eigenen Produkte. Analytisches Denken aus Studium (1,5) und PM-Praxis bei REWE.</p></div>
+    </div>
+  </div>
+</section>
+<section>
+  <div class="sec-label">Highlight-Projekt</div>
+  <div class="project">
+    <div class="proj-tag">Shipped · AI × UX × End-to-End</div>
+    <div class="proj-name">NFC CHIP<br>SYSTEM</div>
+    <p class="proj-desc">Full-Stack-Produkt: NFC-Authentifizierung mit AWS-Backend, Monitoring-Dashboard und KI-gestützter Entwicklung. Von der Idee bis zum produktiven System.</p>
+    <div class="proj-rel">&rarr; Relevant für CHECK24 InsurTech: David verbindet End-to-End Produktentwicklung, AI und datengetriebene Optimierung — genau die DNA dieser Rolle.</div>
+  </div>
+</section>
+<section class="cta">
+  <a href="https://girnstein-david.framer.website" target="_blank" class="btn btn-p">Portfolio ansehen &#8594;</a>
+  <a href="https://www.linkedin.com/in/davidgirnstein" target="_blank" class="btn btn-s">LinkedIn</a>
+  <a href="mailto:david@girnstein.studio" class="btn btn-s">david@girnstein.studio</a>
+</section>
+<footer>
+  <p>// Mit Claude AI generiert &middot; von David Girnstein kuratiert</p>
+  <p>// 2026 &middot; girnstein.studio</p>
+</footer>
+<script>
+  const ls=[['l1',0],['l2',480],['l3',960],['l4',1440],['l5',2000]];
+  ls.forEach(([id,d])=>setTimeout(()=>document.getElementById(id).classList.add('vis'),d));
+  setTimeout(()=>{
+    const w=document.getElementById('lbw'); w.classList.add('vis');
+    setTimeout(()=>document.getElementById('lb').style.width='100%',50);
+  },1700);
+  setTimeout(()=>document.getElementById('loader').classList.add('hidden'),3200);
+  const tip=document.getElementById('tip'), txt=document.getElementById('tip-txt');
+  document.querySelectorAll('.hl').forEach(el=>{
+    el.addEventListener('mouseenter',e=>{txt.textContent=el.dataset.tip;tip.classList.add('vis');mv(e)});
+    el.addEventListener('mousemove',mv);
+    el.addEventListener('mouseleave',()=>tip.classList.remove('vis'));
+  });
+  function mv(e){
+    tip.style.left=Math.min(e.clientX+16,window.innerWidth-320)+'px';
+    tip.style.top=Math.max(e.clientY-60,10)+'px';
+  }
+</script>
+</body>
+</html>
