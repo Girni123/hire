@@ -4,11 +4,13 @@ jobs.csv
 generate.py
 GIT_COMMANDS.md
 COWORK_ANLEITUNG.md
+.gitignore
 
 Motivationsschrieben-MasterPrompt.rtf
 README.md
 
 QR-Codes/
+PortfolioPages/
 
 # Python
 __pycache__/
